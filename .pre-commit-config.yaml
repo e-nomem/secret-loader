@@ -1,0 +1,26 @@
+repos:
+-   repo: meta
+    hooks:
+      - id: check-hooks-apply
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: trailing-whitespace
+-   repo: local
+    hooks:
+      - id: rustfmt
+        name: rustfmt
+        language: system
+        types: [rust]
+        entry: rustfmt -l
+
+      - id: clippy
+        name: clippy
+        language: system
+        types: [rust]
+        entry: cargo clippy --all-targets --all-features -- -D warnings
+        pass_filenames: false
