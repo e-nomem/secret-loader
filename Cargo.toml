@@ -5,8 +5,13 @@ version = "0.0.1" # remember to update html_root_url
 license = "MIT OR Apache-2.0"
 edition = "2018"
 resolver = "2"
-categories = []
-keywords = []
+categories = [
+    "Configuration",
+]
+keywords = [
+    "secrets",
+    "serde",
+]
 repository = "https://github.com/e-nomem/secret-loader"
 authors = ["Eashwar Ranganathan <eashwar@eashwar.com>"]
 
