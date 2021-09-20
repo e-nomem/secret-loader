@@ -1,3 +1,5 @@
+name: CI
+
 on:
   push:
     branches:
@@ -8,14 +10,14 @@ on:
       - master
       - main
 
-name: CI
+env:
+  CARGO_INCREMENTAL: 0
+  RUSTFLAGS: "-D warnings"
 
 jobs:
   lint:
     name: Check and Lint
     runs-on: ubuntu-latest
-    env:
-      RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -23,6 +25,8 @@ jobs:
           toolchain: stable
           override: true
           components: rustfmt, clippy
+      - name: cache dependencies
+        uses: Swatinem/rust-cache@c5ed9ba6b7e1bb8aff90d43acd2f0af4990fa57c
       - name: clippy
         uses: actions-rs/cargo@v1
         with:
@@ -42,14 +46,14 @@ jobs:
         # Test MSRV and latest
         rust-version: [ 1.51, stable ]
       fail-fast: false
-    env:
-      RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.rust-version }}
           override: true
+      - name: cache dependencies
+        uses: Swatinem/rust-cache@c5ed9ba6b7e1bb8aff90d43acd2f0af4990fa57c
       - name: Build base library
         uses: actions-rs/cargo@v1
         with:
