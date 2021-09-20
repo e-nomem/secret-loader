@@ -106,10 +106,10 @@
 //! // New deserialization fn HERE
 //! pub fn deserialize_secret<'de, D>(deserializer: D) -> Result<SecretString, D::Error>
 //! where
-//!        D: Deserializer<'de>,
+//!     D: Deserializer<'de>,
 //! {
-//!        SecretLoader::deserialize(deserializer)?.into_secret().map_err(DeError::custom)
-//!    }
+//!     SecretLoader::deserialize(deserializer)?.into_secret().map_err(DeError::custom)
+//! }
 //!
 //! let config: Configuration = toml::from_str(r#"
 //! [user.alice]

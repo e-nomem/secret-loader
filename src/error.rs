@@ -30,7 +30,7 @@ use std::io::Error as IoError;
 /// let env_error = SecretString::try_from(env_cred).expect_err("Env var is not set");
 /// assert!(matches!(env_error, LoadError::Env(_)));
 ///
-/// // File may not available
+/// // File may not be available
 /// let file_cred = SecretLoader::new("file:/does/not/exist");
 /// let file_error = SecretString::try_from(file_cred).expect_err("File is missing");
 /// assert!(matches!(file_error, LoadError::Io(_)));
