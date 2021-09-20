@@ -1,5 +1,6 @@
 # secret-loader
 ### Load secrets from multiple locations
+[![Github CI](https://github.com/e-nomem/secret-loader/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/e-nomem/secret-loader/actions/workflows/ci.yml)
 [![secret-loader on crates.io](https://img.shields.io/crates/v/secret-loader)](https://crates.io/crates/secret-loader)
 [![Documentation (latest release)](https://docs.rs/secret-loader/badge.svg)](https://docs.rs/secret-loader)
 [![License](https://img.shields.io/badge/license-Apache-green.svg)](LICENSE-APACHE)
