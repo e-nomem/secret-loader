@@ -15,6 +15,10 @@ keywords = [
 repository = "https://github.com/e-nomem/secret-loader"
 authors = ["Eashwar Ranganathan <eashwar@eashwar.com>"]
 
+exclude = [
+    ".github/**/*",
+]
+
 [dependencies]
 camino = "1"
 secrecy = "0.8"
