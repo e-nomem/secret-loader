@@ -16,5 +16,11 @@ secrecy = "0.8"
 serde = { version = "1", optional = true }
 
 [dev-dependencies]
-serial_test = "0.5"
-tempfile = "3"
+serde = { version = "1", features = ["derive"] }
+serial_test = "0.5.1"
+tempfile = "3.2.0"
+toml = "0.5.8"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
