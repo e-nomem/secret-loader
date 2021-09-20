@@ -1,5 +1,9 @@
 # secret-loader
 ### Load secrets from multiple locations
+[![secret-loader on crates.io](https://img.shields.io/crates/v/secret-loader)](https://crates.io/crates/secret-loader)
+[![Documentation (latest release)](https://docs.rs/secret-loader/badge.svg)](https://docs.rs/secret-loader)
+[![License](https://img.shields.io/badge/license-Apache-green.svg)](LICENSE-APACHE)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE-MIT)
 
 `secret-loader` provides a `SecretLoader` type that can load a `SecretString`
 from an environment variable, a file, or directly as a String. The intended use case is to remove
