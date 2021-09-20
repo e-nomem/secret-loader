@@ -64,3 +64,84 @@ impl TryFrom<Credential> for Secret<String> {
         Ok(secret)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::convert::TryInto;
+    use std::env;
+
+    use secrecy::ExposeSecret;
+    use serial_test::serial;
+
+    use super::*;
+
+    fn setup_env(value: Option<&str>) {
+        match value {
+            Some(value) => env::set_var("SECRET", value),
+            None => env::remove_var("SECRET"),
+        }
+    }
+
+    fn env_is_set() -> bool {
+        env::var("SECRET").is_ok()
+    }
+
+    #[test]
+    fn parse_env() {
+        let cred = "env:SECRET".parse().unwrap();
+        match cred {
+            Credential::Env(env_var) => {
+                assert_eq!(env_var, "SECRET");
+            }
+            _ => panic!("Wrong credential type"),
+        }
+    }
+
+    #[test]
+    fn parse_file() {
+        let cred = "file:/home/user/.secrets".parse().unwrap();
+        match cred {
+            Credential::File(path) => {
+                assert_eq!(path, "/home/user/.secrets");
+            }
+            _ => panic!("Wrong credential type"),
+        }
+    }
+
+    #[test]
+    fn parse_plain() {
+        let cred = "plaincredentialstorageisbad".parse().unwrap();
+        match cred {
+            Credential::Plain(secret) => {
+                assert_eq!(secret.expose_secret(), "plaincredentialstorageisbad");
+            }
+            _ => panic!("Wrong credential type"),
+        }
+    }
+
+    #[test]
+    #[serial(Env)]
+    fn secret_from_env_present() -> Result<(), Error> {
+        let cred: Credential = "env:SECRET".parse().unwrap();
+
+        setup_env(Some("supersecret"));
+        assert!(env_is_set());
+
+        let secret: Secret<String> = cred.try_into()?;
+        assert_eq!(secret.expose_secret(), "supersecret");
+        Ok(())
+    }
+
+    #[test]
+    #[serial(Env)]
+    fn secret_from_env_missing() {
+        let cred: Credential = "env:SECRET".parse().unwrap();
+
+        setup_env(None);
+        assert!(!env_is_set());
+
+        let secret: Result<Secret<String>, _> = cred.try_into();
+
+        assert!(matches!(secret.unwrap_err(), Error::Env(_)));
+    }
+}

@@ -1,15 +1,19 @@
 [package]
 name = "secret-loader"
-version = "0.0.1"
+description = "Load secrets from multiple locations"
+version = "0.0.1" # remember to update html_root_url
 license = "MIT OR Apache-2.0"
 edition = "2018"
 resolver = "2"
-
-authors = [
-	"Eashwar Ranganathan <eashwar@eashwar.com>",
-]
+categories = []
+keywords = []
+repository = "https://github.com/e-nomem/secret-loader"
+authors = ["Eashwar Ranganathan <eashwar@eashwar.com>"]
 
 [dependencies]
 camino = "1"
 secrecy = "0.8"
 serde = { version = "1", optional = true }
+
+[dev-dependencies]
+serial_test = "0.5"
