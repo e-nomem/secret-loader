@@ -12,7 +12,7 @@ use secrecy::Secret;
 
 use crate::error::LoadError;
 
-/// An type that can load secrets from multiple locations
+/// A type that can load secrets from multiple locations
 ///
 /// This enum is the main type of this crate and represents a secret
 /// that can be loaded from multiple locations. This type can be converted
