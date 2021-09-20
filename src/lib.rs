@@ -127,7 +127,7 @@
 // only enables the `doc_cfg` feature when
 // the `docsrs` configuration attribute is defined
 #![cfg_attr(docsrs, feature(doc_cfg))]
-#![doc(html_root_url = "https://docs.rs/secret-loader/0.0.1")]
+#![doc(html_root_url = "https://docs.rs/secret-loader/0.1.0")]
 
 mod error;
 mod loader;

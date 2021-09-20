@@ -1,7 +1,7 @@
 [package]
 name = "secret-loader"
 description = "Load secrets from multiple locations"
-version = "0.0.1" # remember to update html_root_url
+version = "0.1.0" # remember to update html_root_url
 license = "MIT OR Apache-2.0"
 edition = "2018"
 resolver = "2"
