@@ -69,9 +69,11 @@ impl TryFrom<Credential> for Secret<String> {
 mod tests {
     use std::convert::TryInto;
     use std::env;
+    use std::io::Write;
 
     use secrecy::ExposeSecret;
     use serial_test::serial;
+    use tempfile::NamedTempFile;
 
     use super::*;
 
@@ -121,15 +123,14 @@ mod tests {
 
     #[test]
     #[serial(Env)]
-    fn secret_from_env_present() -> Result<(), Error> {
+    fn secret_from_env_present() {
         let cred: Credential = "env:SECRET".parse().unwrap();
 
-        setup_env(Some("supersecret"));
+        setup_env(Some("superenvsecret"));
         assert!(env_is_set());
 
-        let secret: Secret<String> = cred.try_into()?;
-        assert_eq!(secret.expose_secret(), "supersecret");
-        Ok(())
+        let secret: Secret<String> = cred.try_into().unwrap();
+        assert_eq!(secret.expose_secret(), "superenvsecret");
     }
 
     #[test]
@@ -143,5 +144,35 @@ mod tests {
         let secret: Result<Secret<String>, _> = cred.try_into();
 
         assert!(matches!(secret.unwrap_err(), Error::Env(_)));
+    }
+
+    #[test]
+    fn secret_from_file_present() {
+        let mut tempfile = NamedTempFile::new().unwrap();
+        write!(tempfile, "superfilesecret").unwrap();
+        let tempfile = tempfile.into_temp_path();
+
+        let cred: Credential = format!("file:{}", tempfile.display()).parse().unwrap();
+        let secret: Secret<String> = cred.try_into().unwrap();
+
+        assert_eq!(secret.expose_secret(), "superfilesecret");
+        tempfile.close().unwrap();
+    }
+
+    #[test]
+    fn secret_from_file_missing() {
+        let cred: Credential = "file:/does/not/exist".parse().unwrap();
+
+        let secret: Result<Secret<String>, _> = cred.try_into();
+
+        assert!(matches!(secret.unwrap_err(), Error::Io(_)));
+    }
+
+    #[test]
+    fn secret_from_plain() {
+        let cred: Credential = "plaincredentialstorageisbad".parse().unwrap();
+        let secret: Secret<String> = cred.try_into().unwrap();
+
+        assert_eq!(secret.expose_secret(), "plaincredentialstorageisbad");
     }
 }
